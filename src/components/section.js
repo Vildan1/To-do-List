@@ -1,7 +1,16 @@
 import { useState } from "react";
-const Section = ({lists, setLists, value, setValue }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+const Section = ({ lists, setLists, value, setValue }) => {
 
+  //search filter 
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchFilter =
+    searchQuery.length > 0
+      ? lists.filter((list) =>
+        list.todoName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      : lists;
+
+  //handle click all, active, completed
   const onClickList = () => {
     setLists(
       lists.map((i) => {
@@ -25,24 +34,19 @@ const Section = ({lists, setLists, value, setValue }) => {
     setLists(lists.filter((list) => list.todoActive === false));
   };
 
+  //handle click completed
   const handClickCompleted = (e) => {
     e.preventDefault();
     setLists(lists.filter((list) => list.todoActive === true));
   };
-
+  //handle click clear completed
   const onClear = (e) => {
     e.preventDefault();
     setLists(lists.filter((list) => list.todoActive === false));
   };
-
+  //handle uncompleted
   const unCompleted = lists.filter((item) => item.todoActive === false);
-//filtering done
-  const searchFilter =
-    searchQuery.length > 0
-      ? lists.filter((list) =>
-          list.todoName.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      : lists;
+
 
   return (
     <div>
